@@ -31,5 +31,30 @@ class UserSeeder extends Seeder
         ]);
         $admin->assignRole('admin');
 
+        $client = User::create([
+            'full_name' => 'Usama Abbasi',
+            'username' => 'usama682',
+            'email' => 'usamaabbasi682@gmail.com',
+            'password' => Hash::make('12345678'),
+        ]);
+        $client->assignRole('client');
+
+
+        $writer = User::create([
+            'full_name' => 'writer',
+            'username' => 'writer682',
+            'email' => 'writer@test.com',
+            'password' => Hash::make('12345678'),
+        ]);
+        $writer->assignRole('writer');
+
+        $editor = User::create([
+            'full_name' => 'editor',
+            'username' => 'editor682',
+            'email' => 'editor@test.com',
+            'password' => Hash::make('12345678'),
+        ]);
+        $editor->assignRole('editor');
+
     }
 }

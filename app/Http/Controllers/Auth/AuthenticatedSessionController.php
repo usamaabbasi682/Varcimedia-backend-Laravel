@@ -57,14 +57,15 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): Response
+    public function destroy(Request $request): LoginResource
     {
-        Auth::guard('web')->logout();
+        $user = $request->user();
+        $user->currentAccessToken()->delete();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return response()->noContent();
+        return LoginResource::make(null)
+            ->additional([
+                'success' => true,
+                'message' => 'Logout successfully',
+            ]);
     }
 }
