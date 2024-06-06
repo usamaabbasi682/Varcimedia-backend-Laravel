@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Auth;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class LoginResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +18,10 @@ class LoginResource extends JsonResource
         [
             'id' => $this->id,
             'full_name' => $this->full_name,
+            'username' => $this->username,
             'email' => $this->email,
+            'created_at' => $this->created_at->format('d M, Y'),
+            'role' => $this->getRoleNames()[0],
         ] : [];
     }
 }
