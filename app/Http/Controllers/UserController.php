@@ -22,9 +22,9 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $users = $this->repository->all();
+        $users = $this->repository->all($request);
         return UserResource::collection($users);
     }
 
