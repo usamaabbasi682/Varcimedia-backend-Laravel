@@ -10,9 +10,16 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 class UserRepository implements UserRepositoryInterface 
 {
     
-    public function all() 
+    public function all(Request $request) 
     {
-        return User::orderBy('id','DESC')->paginate(12);
+        $query = User::query();
+
+        $query->when($request->has('search'), function ($query) use($request) {
+            return $query->whereAny(['full_name','username','email'], 'like', '%'.$request->get('search').'%');
+        });
+
+        $users = $query->orderBy('id','DESC')->paginate(8);
+        return $users;
     }
 
     public function create(Request $request) 

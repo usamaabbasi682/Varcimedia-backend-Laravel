@@ -27,7 +27,6 @@ class UpdateRequest extends FormRequest
             'full_name' => 'required|string|max:155',
             'username' => 'required|unique:users,username,'.$this->user,
             'email' => 'required|email|unique:users,email,'.$this->user,
-            'password' => 'required|min:8',
             'role' => 'required|exists:roles,name'
         ];
     }
