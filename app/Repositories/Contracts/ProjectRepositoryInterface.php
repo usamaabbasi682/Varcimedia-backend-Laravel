@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 interface ProjectRepositoryInterface
 {
     public function all(Request $request);
-    // public function find($project);
-    // public function create(Request $request);
-    // public function update($project, Request $request);
-    // public function delete($project);
+    public function find($project);
+    public function findFile($file);
+    public function create(Request $request);
+    public function update(Request $request,$project);
+    public function delete($project);
+    public function deleteFile($file);
 }

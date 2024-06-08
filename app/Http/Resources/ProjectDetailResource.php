@@ -7,7 +7,7 @@ use App\Http\Resources\FileResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectResource extends JsonResource
+class ProjectDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -27,6 +27,7 @@ class ProjectResource extends JsonResource
             'created_at' => $this->created_at->format('d M, Y'),
             'status' => $this->status,
             'work_status'=> $this->work_status,
+            'files' => FileResource::collection($this->whenLoaded('files')),
             'users' => UserResource::collection($this->whenLoaded('user_project')),
         ] : [];
     }

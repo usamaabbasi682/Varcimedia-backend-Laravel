@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->dateTime('end_date');
-            $table->enum('status', ['pending','completed'])->default('pending');
+            $table->enum('work_status', ['pending','completed'])->default('pending');
+            $table->enum('status',['publish','pending'])->default('pending');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

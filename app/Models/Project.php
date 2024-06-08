@@ -20,6 +20,7 @@ class Project extends Model
         'description',
         'end_date',
         'status',
+        'work_status'
     ];
 
     /**
@@ -49,9 +50,9 @@ class Project extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function image(): HasMany
+    public function files(): HasMany
     {
-        return $this->hasMany(Image::class, 'project_id');
+        return $this->hasMany(File::class, 'project_id');
     }
 
     /**
