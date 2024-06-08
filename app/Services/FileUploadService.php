@@ -22,9 +22,7 @@ class FileUploadService
             $file->uploaded_path = str_replace('/public', '', $path);
 
             return $file;
-
         } catch (Exception $exception) {
-
             return null;
         }
     }
@@ -33,16 +31,12 @@ class FileUploadService
     {
         try {
 
-            if (Storage::exists($path)) {
+            if (Storage::exists($path)) 
                 Storage::delete($path);
-            }
-
+            
             return true;
-
         } catch (Exception $exception) {
-
             return null;
-
         }
     }
 }
