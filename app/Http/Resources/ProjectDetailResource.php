@@ -19,11 +19,12 @@ class ProjectDetailResource extends JsonResource
         return $this->resource ?  
         [
             'id' => $this->id,
-            'user' => $this->user->full_name,
+            'user' => $this->user->full_name ?? '',
             'title' => $this->title,
             'name' => $this->name,
             'description' => $this->description,
             'end_date' => $this->end_date->format('d M, Y'),
+            'end_date_without_format' => $this->end_date->format('Y-m-d h:m:s'),
             'created_at' => $this->created_at->format('d M, Y'),
             'status' => $this->status,
             'work_status'=> $this->work_status,

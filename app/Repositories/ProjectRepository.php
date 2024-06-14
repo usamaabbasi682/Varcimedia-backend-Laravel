@@ -20,7 +20,7 @@ class ProjectRepository implements ProjectRepositoryInterface
         $query = Project::query();
 
         $query->when($request->has('search'), function ($query) use($request) {
-            return $query->whereAny(['full_name','username','email'], 'like', '%'.$request->get('search').'%');
+            return $query->whereAny(['title','name'], 'like', '%'.$request->get('search').'%');
         });
 
         $projects = $query->orderBy('id','DESC')->paginate(8);
