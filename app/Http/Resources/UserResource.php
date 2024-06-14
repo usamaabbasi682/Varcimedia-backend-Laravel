@@ -17,7 +17,7 @@ class UserResource extends JsonResource
         return $this->resource ?  
         [
             'id' => $this->id,
-            'full_name' => $this->full_name,
+            'full_name' => ucwords($this->full_name),
             'username' => $this->username,
             'email' => $this->email,
             'created_at' => $this->created_at->format('d M, Y'),
