@@ -43,9 +43,11 @@ class ProjectRepository implements ProjectRepositoryInterface
                 if ($request->hasFile('file')) {
                     foreach ($request->file('file') as $file) {
                         $uploadedFile = FileUploadService::upload($file,'/public/projects');
+                        $fileOriginalName = $uploadedFile->getClientOriginalName();
                         $fileUrl = $uploadedFile->uploaded_path . '/' . $uploadedFile->uploaded_name;
                         
                         $project->files()->create([
+                            'original_name'=>$fileOriginalName,
                             'url' => $fileUrl,
                         ]);
                     }
@@ -91,9 +93,11 @@ class ProjectRepository implements ProjectRepositoryInterface
                 if ($request->hasFile('file')) {
                     foreach ($request->file('file') as $file) {
                         $uploadedFile = FileUploadService::upload($file,'/public/projects');
+                        $fileOriginalName = $uploadedFile->getClientOriginalName();
                         $fileUrl = $uploadedFile->uploaded_path . '/' . $uploadedFile->uploaded_name;
                         
                         $userProject->files()->create([
+                            'original_name'=>$fileOriginalName,
                             'url' => $fileUrl,
                         ]);
                     }
