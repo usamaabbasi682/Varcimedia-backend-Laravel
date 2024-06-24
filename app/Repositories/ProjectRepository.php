@@ -23,7 +23,24 @@ class ProjectRepository implements ProjectRepositoryInterface
             return $query->whereAny(['title','name'], 'like', '%'.$request->get('search').'%');
         });
 
+        $query->when($request->has('work_status'),function($query) use($request) {
+            return $query->where('work_status',$request->get('work_status'));
+        });
+
         $projects = $query->orderBy('id','DESC')->paginate(8);
+        return $projects;
+    }
+    
+    public function myProjects(Request $request) 
+    {
+        $user = auth('sanctum')->user();
+        $query = Project::query();
+
+        $query->when($request->has('search'), function ($query) use($request) {
+            return $query->whereAny(['title','name'], 'like', '%'.$request->get('search').'%');
+        });
+
+        $projects = $query->whereBelongsTo($user)->orderBy('id','DESC')->paginate(8);
         return $projects;
     }
 
