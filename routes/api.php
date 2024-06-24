@@ -10,6 +10,8 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('file/{id}/remove',[ProjectController::class,'removeFile']);
+    Route::get('my-projects',[ProjectController::class,'myProject']);
+    
     Route::controller(RoleController::class)->prefix('role')->name('role.')->group(function() {
         Route::get('/admin','admins');
         Route::get('/client','clients');

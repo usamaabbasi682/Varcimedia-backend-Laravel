@@ -28,6 +28,15 @@ class ProjectController extends Controller
     }
 
     /**
+     * Display a listing of admin resource.
+     */
+    public function myProject(Request $request): AnonymousResourceCollection
+    {
+        $projects = $this->repository->myProjects($request);
+        return ProjectResource::collection($projects);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request): ProjectResource
