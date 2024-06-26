@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Chat;
 use Illuminate\Http\Request;
 use App\Http\Resources\FileResource;
 use App\Http\Resources\UserResource;
@@ -16,6 +17,14 @@ class ProjectDetailResource extends JsonResource
      */
     public function toArray(Request $request): ?array
     {
+        $projectUsers = $this->user_project()->orderByDesc(
+            Chat::select('created_at')
+            ->whereColumn('receiver_id', 'users.id')
+            ->orWhereColumn('sender_id', 'users.id')
+            ->orderByDesc('created_at')
+            ->limit(1)
+        )->get();
+        
         return $this->resource ?  
         [
             'id' => $this->id,
@@ -29,7 +38,7 @@ class ProjectDetailResource extends JsonResource
             'status' => $this->status,
             'work_status'=> $this->work_status,
             'files' => FileResource::collection($this->whenLoaded('files')),
-            'users' => UserResource::collection($this->whenLoaded('user_project')),
+            'users' => ChatUserResource::collection($projectUsers),
         ] : [];
     }
 }

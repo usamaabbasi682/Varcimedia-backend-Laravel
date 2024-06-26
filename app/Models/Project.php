@@ -42,7 +42,8 @@ class Project extends Model
      */
     public function user_project(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'project_users');
+        // dd(auth('sanctum')->user()->id);
+        return $this->belongsToMany(User::class, 'project_users')->wherePivot('user_id', '!=', auth('sanctum')->user()->id ?? 1);
     }
 
     /**
