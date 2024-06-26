@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
@@ -11,6 +12,11 @@ require __DIR__.'/auth.php';
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('file/{id}/remove',[ProjectController::class,'removeFile']);
     Route::get('my-projects',[ProjectController::class,'myProject']);
+
+    Route::controller(ChatController::class)->prefix('chat')->name('chat.')->group(function(){
+        Route::get('/load/{sender_id}/{receiver_id}/{project_id}','index');
+        Route::post('/save-message','store');
+    });
     
     Route::controller(RoleController::class)->prefix('role')->name('role.')->group(function() {
         Route::get('/admin','admins');

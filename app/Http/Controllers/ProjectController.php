@@ -61,7 +61,7 @@ class ProjectController extends Controller
         }
 
         $project = $this->repository->find($id);
-        return ProjectDetailResource::make($project->load(['user_project','files']))
+        return ProjectDetailResource::make($project->load(['files']))
             ->additional([
                 'success' => true,
                 'message' => 'Project retrieved successfully',
