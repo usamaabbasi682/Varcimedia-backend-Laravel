@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
         ]);
 
-        $users = User::factory(5)->create();
+        $users = User::factory(3)->create();
         $users->each(function($user) {
             $user->assignRole('client');
 
-            $projects = Project::factory(rand(2,5))->create([
+            $projects = Project::factory(rand(2,3))->create([
                 'user_id' => $user->id,
             ]);
 
