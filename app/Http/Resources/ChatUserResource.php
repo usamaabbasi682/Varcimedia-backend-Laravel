@@ -23,10 +23,10 @@ class ChatUserResource extends JsonResource
      */
     public function toArray(Request $request): ?array
     {        
-        // $chatting = Chat::whereProjectId($this->projectId)
-        // ->chatting(auth('sanctum')->id(),$this->id)
-        // ->order('ASC')
-        // ->get();
+        $chatting = Chat::whereProjectId($this->projectId)
+            ->chatting(auth('sanctum')->id(),$this->id)
+            ->latest('created_at')
+            ->first();
 
         return $this->resource ?  
         [
@@ -36,7 +36,7 @@ class ChatUserResource extends JsonResource
             'email' => $this->email,
             'created_at' => $this->created_at->format('d M, Y'),
             'role' => $this->getRoleNames()[0],
-            // 'latest_message' => $chatting,
+            'latest_message' => new LatestMessageResource($chatting),
         ] : [];
     }
 }

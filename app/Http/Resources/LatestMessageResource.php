@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Auth;
+namespace App\Http\Resources;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class LoginResource extends JsonResource
+class LatestMessageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +17,8 @@ class LoginResource extends JsonResource
     {
         return $this->resource ?  
         [
-            'id' => $this->id,
-            'full_name' => $this->full_name,
-            'email' => $this->email,
-            'role' => $this->getRoleNames()[0],
+            'message' => Str::limit($this->message, 55, '...'),
+            'created_at' => $this->created_at->format('d M')
         ] : [];
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('name');
             $table->text('description');
-            $table->dateTime('end_date');
+            $table->string('end_date')->nullable(true);
             $table->enum('work_status', ['pending','completed'])->default('pending');
             $table->enum('status',['publish','pending'])->default('pending');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

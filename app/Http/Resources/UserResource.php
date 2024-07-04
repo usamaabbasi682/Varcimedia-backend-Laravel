@@ -22,6 +22,9 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'created_at' => $this->created_at->format('d M, Y'),
             'role' => $this->getRoleNames()[0],
+            'projects' => $this->projects()->count(),
+            'completed_projects' => $this->projects()->where('work_status', 'completed')->count(),
+            'pending_projects' => $this->projects()->where('work_status', 'pending')->count(),
         ] : [];
     }
 }

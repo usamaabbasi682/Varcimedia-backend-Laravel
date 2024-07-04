@@ -27,6 +27,10 @@ class ProjectRepository implements ProjectRepositoryInterface
             return $query->where('work_status',$request->get('work_status'));
         });
 
+        $query->when(auth('sanctum')->user()->hasRole('client'),function($query) {
+            return $query->where('user_id',auth('sanctum')->user()->id);
+        });
+
         $projects = $query->orderBy('id','DESC')->paginate(8);
         return $projects;
     }
@@ -48,13 +52,19 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         try {
             $project = DB::transaction(function () use($request) {
-                $user = Auth::user();
-                
+                $user = auth('sanctum')->user();
+
+                if ($user->hasRole('admin')) {
+                    $endDate = Carbon::parse($request->input('end_date'));
+                } else {
+                    $endDate = NULL;
+                }
+
                 $project = $user->projects()->create([
                     'title' => $request->input('title') ?? '',
                     'name' => $request->input('name') ?? '',
                     'description' => $request->input('description') ?? '',
-                    'end_date' =>  Carbon::parse($request->input('end_date')) ?? '',
+                    'end_date' => $endDate,
                 ]);
 
                 if ($request->hasFile('file')) {
@@ -71,7 +81,7 @@ class ProjectRepository implements ProjectRepositoryInterface
                 }
 
                 if (!empty($request->input('associate_users'))) {
-                    $project->user_project()->attach($request->input('associate_users'));
+                    $project->user_projects()->attach($request->input('associate_users'));
                 }
 
                 return $project;
@@ -97,12 +107,20 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         try {
             $project = DB::transaction(function () use($project,$request)  {
+
+                $user = auth('sanctum')->user();
+                if ($user->hasRole('admin')) {
+                    $endDate = Carbon::parse($request->input('end_date'));
+                } else {
+                    $endDate = NULL;
+                }
+
                 $userProject = Project::findOrFail($project);
                 $project = $userProject->update([
                     'title' => $request->input('title') ?? '',
                     'name' => $request->input('name') ?? '',
                     'description' => $request->input('description') ?? '',
-                    'end_date' =>  Carbon::parse($request->input('end_date')) ?? '',
+                    'end_date' => $endDate,
                     'work_status' => $request->input('work_status') ?? '',
                     'status' => $request->input('status') ?? '',
                 ]);
@@ -121,7 +139,7 @@ class ProjectRepository implements ProjectRepositoryInterface
                 }
 
                 if (!empty($request->input('associate_users'))) {
-                    $userProject->user_project()->sync($request->input('associate_users'));
+                    $userProject->user_projects()->sync($request->input('associate_users'));
                 }
                 return $userProject;
             });

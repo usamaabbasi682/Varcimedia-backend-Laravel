@@ -23,11 +23,11 @@ class ProjectResource extends JsonResource
             'title' => $this->title,
             'name' => $this->name,
             'description' => $this->description,
-            'end_date' => $this->end_date->format('d M, Y'),
+            'end_date' =>  $this->end_date ? $this->end_date->format('d M, Y') : null,
             'created_at' => $this->created_at->format('d M, Y'),
             'status' => $this->status,
             'work_status'=> $this->work_status,
-            'users' => UserResource::collection($this->user_project),
+            'users' => UserResource::collection($this->user_projects),
         ] : [];
     }
 }

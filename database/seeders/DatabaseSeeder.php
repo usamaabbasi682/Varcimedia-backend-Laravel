@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             ]);
 
             $projects->each(function($project) use($user) {
-                $project->user_project()->attach([1,2,3,4]);
+                $project->user_projects()->attach([1,2,3,4]);
             });
         });
     }

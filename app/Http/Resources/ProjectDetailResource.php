@@ -32,13 +32,14 @@ class ProjectDetailResource extends JsonResource
             'title' => $this->title,
             'name' => $this->name,
             'description' => $this->description,
-            'end_date' => $this->end_date->format('d M, Y'),
-            'end_date_without_format' => $this->end_date->format('Y-m-d h:m:s'),
+            'end_date' => $this->end_date ? $this->end_date->format('d M, Y') : null,
+            'end_date_without_format' => $this->end_date ? $this->end_date->format('Y-m-d h:m:s') : null,
             'created_at' => $this->created_at->format('d M, Y'),
             'status' => $this->status,
             'work_status'=> $this->work_status,
             'files' => FileResource::collection($this->whenLoaded('files')),
             'users' => ChatUserResource::collection($projectUsers),
+            'usersEditable' => UserResource::collection($this->user_projects),
         ] : [];
     }
 }
