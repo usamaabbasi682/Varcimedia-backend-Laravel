@@ -81,10 +81,11 @@ class ProjectRepository implements ProjectRepositoryInterface
                 $user = auth('sanctum')->user();
 
                 if ($user->hasRole('admin')) {
-                    if($request->input('end_date') != '') {
+                    if($request->input('end_date') != '') 
                         $endDate = Carbon::parse($request->input('end_date'));
-                    }
-                    $endDate = NULL;
+                    else 
+                        $endDate = NULL;
+                    
                 } else {
                     $endDate = NULL;
                 }
@@ -139,10 +140,10 @@ class ProjectRepository implements ProjectRepositoryInterface
 
                 $user = auth('sanctum')->user();
                 if ($user->hasRole('admin')) {
-                    if($request->input('end_date') != '') {
+                    if($request->input('end_date') != '') 
                         $endDate = Carbon::parse($request->input('end_date'));
-                    }
-                    $endDate = NULL;
+                    else 
+                        $endDate = NULL;
                 } else {
                     $endDate = NULL;
                 }
