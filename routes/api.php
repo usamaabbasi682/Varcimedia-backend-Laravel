@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ChatHistoryController;
 
 require __DIR__.'/auth.php';
 
@@ -31,6 +32,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/projects',ProjectController::class);
 
     Route::middleware(['role:admin'])->group(function () {
+        Route::controller(ChatHistoryController::class)->prefix('chat-history')->name('chat-history.')->group(function(){
+            Route::get('/projects','fetchProject');
+            Route::get('/project/{id}/users','fetchSenderUsers');
+            Route::get('/project/{senderId}/{projectId}/users','fetchReceiverUsers');
+        });
         Route::controller(RoleController::class)->prefix('role')->name('role.')->group(function() {
             Route::get('/admin','admins');
             Route::get('/client','clients');

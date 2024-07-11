@@ -45,6 +45,16 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_users')->wherePivot('user_id', '!=', auth('sanctum')->user()->id ?? 1);
     }
 
+    public function chat_users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'project_users')->wherePivot('user_id', '!=', auth('sanctum')->user()->id ?? 1);
+    }
+
+    public function chat_history(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'project_users');
+    }
+
     public function user_projects(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'project_users')->orderByPivot('id', 'ASC');
