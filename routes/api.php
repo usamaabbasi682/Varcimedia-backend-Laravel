@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\DashboardController;
 
@@ -19,6 +20,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
     Route::delete('file/{id}/remove',[ProjectController::class,'removeFile']);
     Route::get('my-projects',[ProjectController::class,'myProject']);
+    Route::put('my-profile',[ProfileController::class,'update']);
+    Route::get('my-profile/{id}',[ProfileController::class,'edit']);
 
     Route::controller(ChatController::class)->prefix('chat')->name('chat.')->group(function(){
         Route::get('/load/{sender_id}/{receiver_id}/{project_id}','index');

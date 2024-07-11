@@ -27,8 +27,34 @@ class ProjectRepository implements ProjectRepositoryInterface
             return $query->where('work_status',$request->get('work_status'));
         });
 
-        $query->when(auth('sanctum')->user()->hasRole('client'),function($query) {
-            return $query->where('user_id',auth('sanctum')->user()->id);
+        $query->when(auth('sanctum')->user()->hasRole('client'),function($query) use($request) {
+             if ($request->get('insight') == '1') {
+                return $query->where('user_id',auth('sanctum')->user()->id);
+             } else {
+                return $query->whereHas('user_projects', function ($query) {
+                    $query->where('user_id', auth('sanctum')->id());
+                });
+             }
+        });
+
+        $query->when(auth('sanctum')->user()->hasRole('writer'),function($query) use($request) {
+             if ($request->get('insight') == '1') {
+                return $query->where('user_id',auth('sanctum')->user()->id);
+             } else {
+                return $query->whereHas('user_projects', function ($query) {
+                    $query->where('user_id', auth('sanctum')->id());
+                });
+             }
+        });
+
+        $query->when(auth('sanctum')->user()->hasRole('editor'),function($query) use($request) {
+             if ($request->get('insight') == '1') {
+                return $query->where('user_id',auth('sanctum')->user()->id);
+             } else {
+                return $query->whereHas('user_projects', function ($query) {
+                    $query->where('user_id', auth('sanctum')->id());
+                });
+             }
         });
 
         $projects = $query->orderBy('id','DESC')->paginate(8);
@@ -55,7 +81,11 @@ class ProjectRepository implements ProjectRepositoryInterface
                 $user = auth('sanctum')->user();
 
                 if ($user->hasRole('admin')) {
-                    $endDate = Carbon::parse($request->input('end_date'));
+                    if($request->input('end_date') != '') 
+                        $endDate = Carbon::parse($request->input('end_date'));
+                    else 
+                        $endDate = NULL;
+                    
                 } else {
                     $endDate = NULL;
                 }
@@ -110,7 +140,10 @@ class ProjectRepository implements ProjectRepositoryInterface
 
                 $user = auth('sanctum')->user();
                 if ($user->hasRole('admin')) {
-                    $endDate = Carbon::parse($request->input('end_date'));
+                    if($request->input('end_date') != '') 
+                        $endDate = Carbon::parse($request->input('end_date'));
+                    else 
+                        $endDate = NULL;
                 } else {
                     $endDate = NULL;
                 }
